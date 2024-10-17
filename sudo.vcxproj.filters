@@ -33,6 +33,9 @@
     <ClCompile Include="quick_generater.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="loader.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="start.h">
@@ -51,6 +54,9 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="quick_generater.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="loader.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

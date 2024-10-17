@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClCompile Include="checker.cpp" />
     <ClCompile Include="generater.cpp" />
+    <ClCompile Include="loader.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="quick_generater.cpp" />
     <ClCompile Include="start.cpp" />
@@ -30,6 +31,7 @@
     <ClInclude Include="checker.h" />
     <ClInclude Include="generater.h" />
     <ClInclude Include="ichecker.h" />
+    <ClInclude Include="loader.h" />
     <ClInclude Include="quick_generater.h" />
     <ClInclude Include="start.h" />
     <ClInclude Include="sudoku.h" />

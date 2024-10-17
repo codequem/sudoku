@@ -39,7 +39,7 @@ private:
 	QuickGenerater* generater;
 
 public:
-	Sudoku(int _level, int _side_length);
+	Sudoku(int _level, int _side_length, bool hasboard);
 	~Sudoku();
 
 	void set_side_length(int _side_length);
@@ -50,16 +50,16 @@ public:
 	void set_total_time(std::string time);
 	std::string get_total_time();
 
-	void set_board(int** board);
+	void set_board(const int** board);
 	const int** get_board();
 
-	void set_solution(int** solution);
+	void set_solution(const int** solution);
 	const int** get_solution();
 
-	void set_user_board(int** user_board);
+	void set_user_board(const int** user_board);
 	const int** get_user_board();
 
-	void set_merge_board(int** merge_board);
+	void set_merge_board(const int** merge_board);
 	const int** get_merge_board();
 	
 	void set_board_value(int x, int y, int value);
@@ -95,4 +95,6 @@ public:
 
 	void record_user_actions(int x, int y, int value, bool is_guess);
 	void record_all_boards();
+
+	void load_data(const int** board,const int** user_board,const int** solution);
 };

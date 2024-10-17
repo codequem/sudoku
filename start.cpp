@@ -1,5 +1,6 @@
 ﻿#include "start.h"
 #include "sudoku.h"
+#include "loader.h"
 
 #include <chrono>
 #include <string>
@@ -175,6 +176,7 @@ Start::Start()
 	use_guess = false;
 	choose_welcome_page = false;
 	choose_start_new_game = false;
+	continue_game = false;
 	init();
 }
 
@@ -186,18 +188,51 @@ void Start::init()
 void Start::welcomePage()
 {
 	ScreenManager screenManager;
+
+	Loader loader(9);
+	if (loader.has_save_file("./data", "boards")) {
+		loader.load_boards("./data", "boards", 9);
+		if (loader.has_unfinished_board())
+			continue_game = true;
+	}
 	
-	auto btn_start_game = Button("进入数独游戏", [&] {startGame(UNKNOW_LEVEL);  }, FunctionButtonStyle());
+	auto btn_start_game = Button("开始游戏", [&] {
+		continue_game = false;
+		startGame(UNKNOW_LEVEL);  
+		}, FunctionButtonStyle());
+	auto btn_continue_game = Button("继续游戏", [&] {startGame(UNKNOW_LEVEL); }, FunctionButtonStyle());
 	auto btn_rule_explan = Button("游戏规则说明", [&] {ruleExplan();  }, FunctionButtonStyle());
 	auto btn_oper_explan = Button("游戏操作说明", [&] {operExplan();  }, FunctionButtonStyle());
 	auto btn_exit_game = Button("退出游戏", [&] { exitGame(); }, FunctionButtonStyle());
-	auto buttons = Container::Vertical({
+	
+	auto buttons = Component();
+	if (continue_game)
+	{
+		buttons = Container::Vertical({
+		Container::Horizontal({btn_start_game}) | flex,
+		Container::Horizontal({btn_continue_game}) | flex,
+		Container::Horizontal({btn_rule_explan}) | flex,
+		Container::Horizontal({btn_oper_explan}) | flex,
+		Container::Horizontal({btn_exit_game}) | flex,
+			});
+	}
+	else
+	{
+		buttons = Container::Vertical({
 		Container::Horizontal({btn_start_game}) | flex,
 		Container::Horizontal({btn_rule_explan}) | flex,
 		Container::Horizontal({btn_oper_explan}) | flex,
 		Container::Horizontal({btn_exit_game}) | flex,
-		});
+			});
+	}
+	
 	auto main_component = Renderer(buttons, [&] {
+		Loader loader(9);
+		if (loader.has_save_file("./data", "boards")) {
+			loader.load_boards("./data", "boards", 9);
+			if (loader.has_unfinished_board())
+				continue_game = true;
+		}
 		return vbox({
 			text("欢迎进入数独游戏") | bold | hcenter | color(Color::Yellow),
 			text("                ") | hcenter,
@@ -216,7 +251,7 @@ void Start::welcomePage()
 
 void Start::startGame(int level)
 {
-	if (level == UNKNOW_LEVEL)
+	if (level == UNKNOW_LEVEL && !continue_game)
 		chooseLevel();
 	else
 	{
@@ -224,7 +259,13 @@ void Start::startGame(int level)
 		bool input_mode = false; //记录当前是输入模式还是普通的选中模式
 
 		ScreenManager screenManager;
-		Sudoku sudoku(level, 9); 
+		Sudoku sudoku(level, 9, continue_game); 
+		if (continue_game)
+		{
+			Loader loader(9);
+			loader.load_boards("./data", "boards", 9);
+			sudoku.load_data(loader.get_unfinished_board(), loader.get_unfinished_user_board(), loader.get_solution());
+		}
 
 		// 开始时间
 		auto start_time = std::chrono::steady_clock::now();
@@ -255,6 +296,8 @@ void Start::startGame(int level)
 			auto row_container = Container::Horizontal({});
 			for (int col = 0; col < sudoku.get_side_length(); ++col) {
 				sudoku.get_board()[row][col] == 0 ? strings[row * 9 + col] = " " : strings[row * 9 + col] = std::to_string(sudoku.get_board()[row][col]); // 如果棋盘中存储的为0，则显示空，否则显示存储的数字
+				if(sudoku.get_user_board()[row][col] != 0)
+					strings[row * 9 + col] = std::to_string(sudoku.get_user_board()[row][col]);// 如果用户继续游戏，将他原来的选择显示给他
 				auto button = Button(&strings[row * 9 + col], [&, col, row] {
 					// 按钮被点击后的处理函数
 					input_mode = true;
@@ -466,7 +509,7 @@ void Start::startGame(int level)
 		auto new_game_button = Button("再来一局", [&] { 
 			screenManager.getScreen(4).ExitLoopClosure()();
 		}) | color(Color::RGB(196, 221, 161));
-		auto back_button = Button("返回", [&] {
+		auto back_button = Button("保存并返回", [&] {
 			// 返回上层循环
 			screenManager.getScreen(4).ExitLoopClosure()();
 		}) | color(Color::RGB(155, 166, 11));

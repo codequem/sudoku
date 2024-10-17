@@ -3,7 +3,7 @@
 #include <filesystem>
 #include <random>
 
-Sudoku::Sudoku(int _level, int _side_length) : user_guess_board(_side_length * _side_length)
+Sudoku::Sudoku(int _level, int _side_length, bool has_board) : user_guess_board(_side_length * _side_length)
 {
 	level = _level;
 	side_length = _side_length;
@@ -14,10 +14,6 @@ Sudoku::Sudoku(int _level, int _side_length) : user_guess_board(_side_length * _
 	std::mt19937 gen(rd());
 	std::uniform_int_distribution<> dist(10000000, 99999999);
 	random_id = dist(gen);
-
-	generater = new QuickGenerater(level);
-	auto generater_board = generater->generater_board();
-	auto generater_solution = generater->get_solution();
 	
 	board = new int* [side_length];
 	solution = new int* [side_length];
@@ -30,14 +26,33 @@ Sudoku::Sudoku(int _level, int _side_length) : user_guess_board(_side_length * _
 		user_board[i] = new int[side_length];
 		merge_board[i] = new int[side_length];
 	}
-	for (int i = 0; i < side_length; i++)
+	generater = new QuickGenerater(level);
+	if (!has_board)
 	{
-		for (int j = 0; j < side_length; j++)
+		auto generater_board = generater->generater_board();
+		auto generater_solution = generater->get_solution();
+		for (int i = 0; i < side_length; i++)
 		{
-			board[i][j] = generater_board[i][j];
-			merge_board[i][j] = generater_board[i][j];
-			solution[i][j] = generater_solution[i][j];
-			user_board[i][j] = 0;
+			for (int j = 0; j < side_length; j++)
+			{
+				board[i][j] = generater_board[i][j];
+				merge_board[i][j] = generater_board[i][j];
+				solution[i][j] = generater_solution[i][j];
+				user_board[i][j] = 0;
+			}
+		}
+	}
+	else
+	{
+		for (int i = 0; i < side_length; i++)
+		{
+			for (int j = 0; j < side_length; j++)
+			{
+				board[i][j] = 0;
+				merge_board[i][j] = 0;
+				solution[i][j] = 0;
+				user_board[i][j] = 0;
+			}
 		}
 	}
 	checker = new Checker(side_length, board, user_board, merge_board);
@@ -85,7 +100,7 @@ std::string Sudoku::get_total_time()
 	return total_time;
 }
 
-void Sudoku::set_board(int** board)
+void Sudoku::set_board(const int** board)
 {
 	for (int i = 0; i < side_length; i++)
 	{
@@ -106,7 +121,7 @@ const int** Sudoku::get_solution()
 	return const_cast<const int**>(solution);
 }
 
-void Sudoku::set_solution(int** solution)
+void Sudoku::set_solution(const int** solution)
 {
 	for (int i = 0; i < side_length; i++)
 	{
@@ -122,7 +137,7 @@ const int** Sudoku::get_user_board()
 	return const_cast<const int**>(user_board);
 }
 
-void Sudoku::set_user_board(int** user_board)
+void Sudoku::set_user_board(const int** user_board)
 {
 	for (int i = 0; i < side_length; i++)
 	{
@@ -133,7 +148,7 @@ void Sudoku::set_user_board(int** user_board)
 	}
 }
 
-void Sudoku::set_merge_board(int** merge_board)
+void Sudoku::set_merge_board(const int** merge_board)
 {
 	for (int i = 0; i < side_length; i++)
 	{
@@ -254,8 +269,8 @@ bool Sudoku::one_step(int x, int y, int value, bool is_guess)
 	{
 		set_user_board_value(x, y, value);
 		set_merge_board_value(x, y, value);
-		dynamic_cast<Checker*>(checker)->set_user_board(user_board);
-		dynamic_cast<Checker*>(checker)->set_merge_board(merge_board);
+		dynamic_cast<Checker*>(checker)->set_user_board(const_cast<const int**>(user_board));
+		dynamic_cast<Checker*>(checker)->set_merge_board(const_cast<const int**>(merge_board));
 		dynamic_cast<Checker*>(checker)->check();
 	}
 
@@ -306,8 +321,8 @@ int** Sudoku::step_back()
 		user_record.pop_back();
 		step--;
 	}
-	dynamic_cast<Checker*>(checker)->set_user_board(user_board);
-	dynamic_cast<Checker*>(checker)->set_merge_board(merge_board);
+	dynamic_cast<Checker*>(checker)->set_user_board(const_cast<const int**>(user_board));
+	dynamic_cast<Checker*>(checker)->set_merge_board(const_cast<const int**>(merge_board));
 	dynamic_cast<Checker*>(checker)->check();
 	record_all_boards();
 	return merge_board;
@@ -367,4 +382,37 @@ void Sudoku::record_all_boards()
 			writer << merge_board[i][j] << " ";
 		writer << std::endl;
 	}
+	writer << "Solution:" << std::endl;
+	for (int i = 0; i < side_length; i++)
+	{
+		for (int j = 0; j < side_length; j++)
+			writer << solution[i][j] << " ";
+		writer << std::endl;
+	}
+}
+
+void Sudoku::load_data(const int** _board, const int** _user_board,const int** _solution)
+{
+	for (int i = 0; i < side_length; i++)
+	{
+		for (int j = 0; j < side_length; j++)
+		{
+			this->board[i][j] = _board[i][j];
+			this->user_board[i][j] = _user_board[i][j];
+			this->solution[i][j] = _solution[i][j];
+			this->merge_board[i][j] = _board[i][j];
+		}
+	}
+	for (int i = 0; i < side_length; i++)
+	{
+		for (int j = 0; j < side_length; j++)
+		{
+			if (user_board[i][j] != 0)
+				this->merge_board[i][j] = user_board[i][j];
+		}
+	}
+	dynamic_cast<Checker*>(checker)->set_board(_board);
+	dynamic_cast<Checker*>(checker)->set_user_board(_user_board);
+	dynamic_cast<Checker*>(checker)->set_merge_board(const_cast<const int**>(merge_board));
+	dynamic_cast<Checker*>(checker)->check();
 }

@@ -18,10 +18,10 @@ public:
 	Checker(int _side_length, int** _board, int** _user_board, int** _merge_board);
 	~Checker();
 	
-	void set_board(int** _board);
-	void set_user_board(int** _user_board);
+	void set_board(const int** _board);
+	void set_user_board(const int** _user_board);
 	void set_side_length(int _side_length);
-	void set_merge_board(int** _merge_board);
+	void set_merge_board(const int** _merge_board);
 
 	bool check_row();
 	bool check_column();

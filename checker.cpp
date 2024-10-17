@@ -42,14 +42,26 @@ Checker::~Checker()
 	delete[] result_board;
 }
 
-void Checker::set_board(int** _board)
+void Checker::set_board(const int** _board)
 {
-	board = _board;
+	for (int i = 0; i < side_length; i++)
+	{
+		for (int j = 0; j < side_length; j++)
+		{
+			this->board[i][j] = _board[i][j];
+		}
+	}
 }
 
-void Checker::set_user_board(int** _user_board)
+void Checker::set_user_board(const int** _user_board)
 {
-	user_board = _user_board;
+	for (int i = 0; i < side_length; i++)
+	{
+		for (int j = 0; j < side_length; j++)
+		{
+			this->user_board[i][j] = _user_board[i][j];
+		}
+	}
 }
 
 void Checker::set_side_length(int _side_length)
@@ -57,9 +69,15 @@ void Checker::set_side_length(int _side_length)
 	side_length = _side_length;
 }
 
-void Checker::set_merge_board(int** _merge_board)
+void Checker::set_merge_board(const int** _merge_board)
 {
-	merge_board = _merge_board;
+	for (int i = 0; i < side_length; i++)
+	{
+		for (int j = 0; j < side_length; j++)
+		{
+			this->merge_board[i][j] = _merge_board[i][j];
+		}
+	}
 }
 
 bool Checker::check_row()

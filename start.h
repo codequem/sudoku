@@ -23,6 +23,8 @@ private:
 	// 用户在结算界面选择要去往的界面
 	bool choose_welcome_page;
 	bool choose_start_new_game;
+	// 用户是否是继续进行保存的游戏
+	bool continue_game;
 public:
 	Start();
 	void init();
