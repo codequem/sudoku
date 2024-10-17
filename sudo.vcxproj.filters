@@ -18,7 +18,7 @@
     <ClCompile Include="main.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="startScreen.cpp">
+    <ClCompile Include="start.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="sudoku.cpp">
@@ -30,15 +30,12 @@
     <ClCompile Include="generater.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="checker_test.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="quick_generater.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="startScreen.h">
+    <ClInclude Include="start.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="sudoku.h">
@@ -51,9 +48,6 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="ichecker.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="checker_test.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="quick_generater.h">

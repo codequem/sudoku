@@ -20,20 +20,18 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="checker.cpp" />
-    <ClCompile Include="checker_test.cpp" />
     <ClCompile Include="generater.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="quick_generater.cpp" />
-    <ClCompile Include="startScreen.cpp" />
+    <ClCompile Include="start.cpp" />
     <ClCompile Include="sudoku.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="checker.h" />
-    <ClInclude Include="checker_test.h" />
     <ClInclude Include="generater.h" />
     <ClInclude Include="ichecker.h" />
     <ClInclude Include="quick_generater.h" />
-    <ClInclude Include="startScreen.h" />
+    <ClInclude Include="start.h" />
     <ClInclude Include="sudoku.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

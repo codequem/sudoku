@@ -32,6 +32,4 @@ public:
 
 	bool check_user_solution() override;
 	bool** get_result_board() override;
-	void print_result();
-	void print_all_board();
 };

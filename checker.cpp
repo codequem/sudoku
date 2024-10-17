@@ -35,6 +35,11 @@ Checker::Checker(int _side_length, int** _board, int** _user_board, int ** _merg
 
 Checker::~Checker()
 {
+	for (int i = 0; i < side_length; i++)
+	{
+		delete[] result_board[i];
+	}
+	delete[] result_board;
 }
 
 void Checker::set_board(int** _board)
@@ -223,49 +228,4 @@ bool Checker::check_user_solution()
 bool** Checker::get_result_board()
 {
 	return result_board;
-}
-
-void Checker::print_result()
-{
-	std::ofstream out("sudoku.txt");
-	for (int i = 0; i < 9; i++)
-	{
-		for (int j = 0; j < 9; j++)
-		{
-			if (result_board[i][j] == false)
-				out << "Row " << i + 1 << " Column " << j + 1 << " is incorrect." << std::endl;
-		}
-	}
-}
-
-void Checker::print_all_board()
-{
-	std::ofstream out("boards.txt");
-	out << "Board:" << std::endl;
-	for (int i = 0; i < side_length; i++)
-	{
-		for (int j = 0; j < side_length; j++)
-		{
-			out << board[i][j] << " ";
-		}
-		out << std::endl;
-	}
-	out << "User Board:" << std::endl;
-	for (int i = 0; i < side_length; i++)
-	{
-		for (int j = 0; j < side_length; j++)
-		{
-			out << user_board[i][j] << " ";
-		}
-		out << std::endl;
-	}
-	out << "Merge Board:" << std::endl;
-	for (int i = 0; i < side_length; i++)
-	{
-		for (int j = 0; j < side_length; j++)
-		{
-			out << merge_board[i][j] << " ";
-		}
-		out << std::endl;
-	}
 }

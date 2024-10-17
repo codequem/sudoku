@@ -1,5 +1,5 @@
 ﻿#include "generater.h"
-#include "startScreen.h"
+#include "start.h"
 #include <random>
 #include <vector>
 #include <fstream>
