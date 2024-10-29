@@ -4,8 +4,7 @@
 # 运行界面
 - 开始界面
 
-  ![image-20241029225205197](C:\Users\cyf\AppData\Roaming\Typora\typora-user-images\image-20241029225205197.png)
-
+  ![01.png](.\\images\\01.png)
 - 可以进行游戏难度的选择
 
   - 简单，随机挖去20个空格
@@ -16,19 +15,18 @@
 
   - 保证生成的数独随机且具有唯一解。
 
-    ![image-20241029225521457](C:\Users\cyf\AppData\Roaming\Typora\typora-user-images\image-20241029225521457.png)
+    ![02.png](.\\images\\02.png)
 
 - 游戏界面如下
 
-  ![image-20241029225645227](C:\Users\cyf\AppData\Roaming\Typora\typora-user-images\image-20241029225645227.png)
+  ![03.png](.\\images\\03.png)
 
   - 可以启用Maybe功能，会自动计算该格在规则内可以填入的值。
 
-    ![image-20241029225824632](C:\Users\cyf\AppData\Roaming\Typora\typora-user-images\image-20241029225824632.png)
-
+    ![04.png](.\\images\\04.png)
   - 当用户输入不符合规则的值时，游戏将会给出反馈
   
-    ![image-20241029230023938](C:\Users\cyf\AppData\Roaming\Typora\typora-user-images\image-20241029230023938.png)
+    ![05.png](.\\images\\05.png)
   
   - 当用户填满所有格子后，将会自动对结果进行判断
   
@@ -36,8 +34,6 @@
   
 - 具有游戏规则说明和操作说明
 
-  ![image-20241029230338088](C:\Users\cyf\AppData\Roaming\Typora\typora-user-images\image-20241029230338088.png)
+  ![06.png](.\\images\\06.png)
 
-  ![image-20241029230357946](C:\Users\cyf\AppData\Roaming\Typora\typora-user-images\image-20241029230357946.png)
-
-  
+  ![07.png](.\\images\\07.png)
